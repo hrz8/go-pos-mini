@@ -8,6 +8,7 @@ import (
 type (
 	RepositoryInterface interface {
 		Create(trx *gorm.DB, user *models.User) (*models.User, error)
+		GetBy(trx *gorm.DB, payload *models.User) (*models.User, error)
 	}
 
 	impl struct {
@@ -28,6 +29,20 @@ func (i *impl) Create(trx *gorm.DB, user *models.User) (*models.User, error) {
 
 	user.Password = nil
 	return user, nil
+}
+
+func (i *impl) GetBy(trx *gorm.DB, payload *models.User) (*models.User, error) {
+	// transaction check
+	if trx == nil {
+		trx = i.db
+	}
+
+	// execution
+	result := models.User{}
+	if err := trx.Debug().Where(payload).First(&result).Error; err != nil {
+		return nil, err
+	}
+	return &result, nil
 }
 
 func NewRepository(db *gorm.DB) RepositoryInterface {

@@ -31,6 +31,18 @@ func (i *restErrorImpl) Throw(ctx *utils.CustomContext, domainError error, dataE
 			nil,
 		)
 	}
+	if errors.Is(domainError, DomainUserError.Login.Err) {
+		status := uint16(DomainUserError.Login.Status)
+		return ctx.ErrorResponse(
+			map[string]interface{}{
+				"reason": dataErr.Error(),
+			},
+			domainError.Error(),
+			status,
+			i.prefix+"-002",
+			nil,
+		)
+	}
 	return ctx.ErrorResponse(
 		nil,
 		"Internal Server Error",

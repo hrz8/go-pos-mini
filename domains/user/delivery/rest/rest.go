@@ -1,6 +1,9 @@
 package rest
 
 import (
+	"time"
+
+	"github.com/golang-jwt/jwt"
 	DomainUserError "github.com/hrz8/go-pos-mini/domains/user/error"
 	"github.com/hrz8/go-pos-mini/domains/user/usecase"
 	"github.com/hrz8/go-pos-mini/models"
@@ -11,6 +14,7 @@ import (
 type (
 	RESTInterface interface {
 		Create(c echo.Context) error
+		Login(c echo.Context) error
 	}
 
 	impl struct {
@@ -29,6 +33,38 @@ func (i *impl) Create(c echo.Context) error {
 	return ctx.SuccessResponse(
 		result,
 		"success create user",
+		nil,
+	)
+}
+
+func (i *impl) Login(c echo.Context) error {
+	ctx := c.(*utils.CustomContext)
+	payload := ctx.Payload.(*models.UserPayloadLogin)
+
+	// get user data from login usecase
+	result, err := i.usecase.Login(ctx, payload)
+	if err != nil {
+		return i.restError.Throw(ctx, DomainUserError.Login.Err, err)
+	}
+
+	// create new jwt claims schema
+	tokenTemp := jwt.NewWithClaims(jwt.SigningMethodHS256, &models.UserJwt{
+		ID: result.ID,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(time.Hour * 72).Unix(),
+			IssuedAt:  time.Now().Unix(),
+			Audience:  result.Email,
+			Issuer:    "go-pos-mini-user-domain",
+		},
+	})
+	token, err := tokenTemp.SignedString([]byte(ctx.AppConfig.SERVICE.JWTSECRET))
+	if err != nil {
+		return err
+	}
+
+	return ctx.SuccessResponse(
+		map[string]interface{}{"token": token},
+		"success login",
 		nil,
 	)
 }

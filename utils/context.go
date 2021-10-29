@@ -5,6 +5,7 @@ import (
 
 	Config "github.com/hrz8/go-pos-mini/config"
 	"github.com/hrz8/go-pos-mini/helpers"
+	"github.com/hrz8/go-pos-mini/models"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
@@ -14,6 +15,7 @@ type (
 		echo.Context
 		MysqlSess *gorm.DB
 		AppConfig *Config.AppConfig
+		User      *models.User
 		Payload   interface{}
 	}
 )

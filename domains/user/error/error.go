@@ -12,6 +12,18 @@ type (
 var (
 	Create = errorMap{
 		Status: 400,
-		Err:    errors.New("failed to create movies list"),
+		Err:    errors.New("failed to create user"),
+	}
+	WrongPassword = errorMap{
+		Status: 403,
+		Err:    errors.New("username or password is wrong"),
+	}
+	Login = errorMap{
+		Status: 403,
+		Err:    errors.New("failed to login the user"),
+	}
+	GetBy = errorMap{
+		Status: 404,
+		Err:    errors.New("user is not found"),
 	}
 )

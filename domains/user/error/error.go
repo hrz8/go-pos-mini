@@ -24,14 +24,22 @@ var (
 	}
 	GetBy = errorMap{
 		Status: 404,
-		Err:    errors.New("user is not found"),
+		Err:    errors.New("user not found"),
 	}
 	UpdateById = errorMap{
 		Status: 400,
 		Err:    errors.New("failed to update user"),
 	}
 	DeleteById = errorMap{
-		Status: 403,
+		Status: 400,
 		Err:    errors.New("failed to delete user"),
+	}
+	GetById = errorMap{
+		Status: 400,
+		Err:    errors.New("failed to get user by id"),
+	}
+	GetAll = errorMap{
+		Status: 400,
+		Err:    errors.New("failed to get all user"),
 	}
 )

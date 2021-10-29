@@ -15,6 +15,8 @@ type (
 		Login(_ *utils.CustomContext, payload *models.UserPayloadLogin) (*models.User, error)
 		UpdateById(ctx *utils.CustomContext, id uint64, payload *models.UserPayloadUpdate) (*models.User, error)
 		DeleteById(ctx *utils.CustomContext, id uint64) (*models.User, error)
+		GetById(_ *utils.CustomContext, id uint64) (*models.User, error)
+		GetAll(_ *utils.CustomContext, conditions *models.UserPayloadGetAll) (*[]models.User, *int64, error)
 	}
 
 	impl struct {
@@ -102,6 +104,26 @@ func (i *impl) DeleteById(ctx *utils.CustomContext, id uint64) (*models.User, er
 
 	trx.Commit()
 	return instance, nil
+}
+
+func (i *impl) GetById(_ *utils.CustomContext, id uint64) (*models.User, error) {
+	result, err := i.repository.GetBy(nil, &models.User{ID: id})
+	if result == nil {
+		return nil, DomainUserError.GetBy.Err
+	}
+	return result, err
+}
+
+func (i *impl) GetAll(_ *utils.CustomContext, conditions *models.UserPayloadGetAll) (*[]models.User, *int64, error) {
+	result, err := i.repository.GetAll(nil, conditions)
+	if err != nil {
+		return nil, nil, err
+	}
+	total, err := i.repository.CountAll(nil)
+	if err != nil {
+		return nil, nil, err
+	}
+	return result, total, err
 }
 
 func NewUsecase(repo repository.RepositoryInterface) UsecaseInterface {

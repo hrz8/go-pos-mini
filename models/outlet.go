@@ -4,8 +4,9 @@ type (
 	// Outlet represents movie object from omdb response
 	Outlet struct {
 		ID          uint64     `gorm:"column:id;primaryKey" json:"id"`
-		Name        string     `gorm:"column:name;index:idx_code;unique;not null;type:text" json:"name"`
-		Description string     `gorm:"column:description;type:text;not null;default:null" json:"description"`
+		Name        string     `gorm:"column:name;index:idx_name;unique;not null" json:"name"`
+		Description string     `gorm:"column:description;type:text" json:"description"`
+		MerchantID  uint64     `gorm:"not null" json:"-"`
 		Merchant    *Merchant  `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"merchant,omitempty"`
 		Products    []*Product `gorm:"many2many:outlets_products" json:"products,omitempty"`
 	}

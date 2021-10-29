@@ -24,7 +24,7 @@ func main() {
 	mysqlSess := mysql.Connect()
 
 	// domains functions
-	userRepository := UserRepository.NewRepository(mysqlSess)
+	userRepository := UserRepository.NewRepository(mysqlSess, appConfig)
 	userUsecase := UserUsecase.NewUsecase(userRepository)
 	userREST := UserREST.NewRest(userUsecase)
 

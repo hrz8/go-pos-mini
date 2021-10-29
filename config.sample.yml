@@ -1,6 +1,7 @@
 SERVICE:
   RESTPORT: 3000
   JWTSECRET: yoursecret
+  ADMINPASSWORD: password123
 DATABASE: 
   HOST: localhost
   PORT: 3306

@@ -13,6 +13,8 @@ type (
 	UsecaseInterface interface {
 		Create(ctx *utils.CustomContext, user *models.UserPayloadCreate) (*models.User, error)
 		Login(_ *utils.CustomContext, payload *models.UserPayloadLogin) (*models.User, error)
+		UpdateById(ctx *utils.CustomContext, id uint64, payload *models.UserPayloadUpdate) (*models.User, error)
+		DeleteById(ctx *utils.CustomContext, id uint64) (*models.User, error)
 	}
 
 	impl struct {
@@ -59,6 +61,47 @@ func (i *impl) Login(_ *utils.CustomContext, payload *models.UserPayloadLogin) (
 	}
 
 	return result, err
+}
+
+func (i *impl) UpdateById(ctx *utils.CustomContext, id uint64, payload *models.UserPayloadUpdate) (*models.User, error) {
+	trx := ctx.MysqlSess.Begin()
+	instance, err := i.repository.GetBy(trx, &models.User{ID: id})
+	if err != nil {
+		trx.Rollback()
+		return nil, err
+	}
+
+	if payload.Password != nil {
+		hashedPassword, err := bcrypt.GenerateFromPassword([]byte(*payload.Password), bcrypt.DefaultCost)
+		if err != nil {
+			trx.Rollback()
+			return nil, err
+		}
+		hashedPasswordStr := string(hashedPassword)
+		payload.Password = &hashedPasswordStr
+	}
+
+	result, err := i.repository.Update(trx, instance, payload)
+
+	trx.Commit()
+	return result, err
+}
+
+func (i *impl) DeleteById(ctx *utils.CustomContext, id uint64) (*models.User, error) {
+	trx := ctx.MysqlSess.Begin()
+	instance, err := i.repository.GetBy(trx, &models.User{ID: id})
+	if err != nil {
+		trx.Rollback()
+		return nil, err
+	}
+
+	if err := i.repository.DeleteById(nil, id); err != nil {
+		trx.Rollback()
+		return nil, err
+	}
+
+	trx.Commit()
+	return instance, nil
 }
 
 func NewUsecase(repo repository.RepositoryInterface) UsecaseInterface {

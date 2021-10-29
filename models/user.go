@@ -34,6 +34,11 @@ type (
 		LastName  *string `json:"lastName"`
 	}
 
+	// UserPayloadDeleteById represents payload to delete user by identifier
+	UserPayloadDeleteById struct {
+		ID uint64 `param:"id" validate:"required"`
+	}
+
 	UserJwt struct {
 		ID uint64 `json:"id"`
 		jwt.StandardClaims

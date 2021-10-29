@@ -9,8 +9,9 @@ import (
 
 type (
 	SERVICE struct {
-		RESTPORT  int    `mapstructure:"RESTPORT"`
-		JWTSECRET string `mapstructure:"JWTSECRET"`
+		RESTPORT      int    `mapstructure:"RESTPORT"`
+		JWTSECRET     string `mapstructure:"JWTSECRET"`
+		ADMINPASSWORD string `mapstructure:"ADMINPASSWORD"`
 	}
 	DATABASE struct {
 		HOST     string `mapstructure:"HOST"`

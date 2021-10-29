@@ -27,7 +27,11 @@ var (
 		Err:    errors.New("user is not found"),
 	}
 	UpdateById = errorMap{
-		Status: 404,
+		Status: 400,
 		Err:    errors.New("failed to update user"),
+	}
+	DeleteById = errorMap{
+		Status: 403,
+		Err:    errors.New("failed to delete user"),
 	}
 )

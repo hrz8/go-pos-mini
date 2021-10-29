@@ -13,4 +13,5 @@ func AddUserEndpoints(e *echo.Echo, rest RESTInterface, jwtMiddleware *middlewar
 	e.POST("/api/v1/login", rest.Login, Utils.ValidatorMiddleware(reflect.TypeOf(models.UserPayloadLogin{})))
 	e.POST("/api/v1/user", rest.Create, middleware.JWTWithConfig(*jwtMiddleware), Utils.ValidatorMiddleware(reflect.TypeOf(models.UserPayloadCreate{})))
 	e.PUT("/api/v1/user/:id", rest.UpdateById, middleware.JWTWithConfig(*jwtMiddleware), Utils.ValidatorMiddleware(reflect.TypeOf(models.UserPayloadUpdate{})))
+	e.DELETE("/api/v1/user/:id", rest.DeleteById, middleware.JWTWithConfig(*jwtMiddleware), Utils.ValidatorMiddleware(reflect.TypeOf(models.UserPayloadDeleteById{})))
 }

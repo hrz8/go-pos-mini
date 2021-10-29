@@ -1,8 +1,10 @@
 package repository
 
 import (
+	Config "github.com/hrz8/go-pos-mini/config"
 	"github.com/hrz8/go-pos-mini/helpers"
 	"github.com/hrz8/go-pos-mini/models"
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
@@ -11,6 +13,7 @@ type (
 		Create(trx *gorm.DB, user *models.User) (*models.User, error)
 		GetBy(trx *gorm.DB, payload *models.User) (*models.User, error)
 		Update(trx *gorm.DB, userInstance *models.User, payload *models.UserPayloadUpdate) (*models.User, error)
+		DeleteById(trx *gorm.DB, id uint64) error
 	}
 
 	impl struct {
@@ -80,8 +83,16 @@ func (i *impl) DeleteById(trx *gorm.DB, id uint64) error {
 	return nil
 }
 
-func NewRepository(db *gorm.DB) RepositoryInterface {
+func NewRepository(db *gorm.DB, appConfig *Config.AppConfig) RepositoryInterface {
 	db.AutoMigrate(&models.User{})
+	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(appConfig.SERVICE.ADMINPASSWORD), bcrypt.DefaultCost)
+	hashedPasswordStr := string(hashedPassword)
+	db.Debug().Create(&models.User{
+		ID:        999,
+		Email:     "admin@posmini.com",
+		Password:  &hashedPasswordStr,
+		FirstName: "Admin",
+	})
 	return &impl{
 		db: db,
 	}

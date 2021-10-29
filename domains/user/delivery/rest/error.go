@@ -55,6 +55,18 @@ func (i *restErrorImpl) Throw(ctx *utils.CustomContext, domainError error, dataE
 			nil,
 		)
 	}
+	if errors.Is(domainError, DomainUserError.DeleteById.Err) {
+		status := uint16(DomainUserError.DeleteById.Status)
+		return ctx.ErrorResponse(
+			map[string]interface{}{
+				"reason": dataErr.Error(),
+			},
+			domainError.Error(),
+			status,
+			i.prefix+"-004",
+			nil,
+		)
+	}
 	return ctx.ErrorResponse(
 		nil,
 		"Internal Server Error",

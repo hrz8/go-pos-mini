@@ -10,7 +10,7 @@ import (
 type (
 	RepositoryInterface interface {
 		CountAll(trx *gorm.DB) (*int64, error)
-		Create(trx *gorm.DB, Merchant *models.Merchant) (*models.Merchant, error)
+		Create(trx *gorm.DB, merchant *models.Merchant) (*models.Merchant, error)
 		GetBy(trx *gorm.DB, payload *models.Merchant) (*models.Merchant, error)
 		GetAll(trx *gorm.DB, payload *models.MerchantPayloadGetAll) (*[]models.Merchant, error)
 	}

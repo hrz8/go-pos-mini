@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 
 	UserREST "github.com/hrz8/go-pos-mini/domains/user/delivery/rest"
 	UserRepository "github.com/hrz8/go-pos-mini/domains/user/repository"
@@ -35,10 +34,6 @@ func main() {
 			}
 			return next(cc)
 		}
-	})
-
-	RESTServer.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!")
 	})
 
 	// domains functions

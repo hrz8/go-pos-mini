@@ -44,6 +44,12 @@ type (
 		ID uint64 `param:"id" validate:"required"`
 	}
 
+	// UserPayloadGetAll represents payload to get all user
+	UserPayloadGetAll struct {
+		Limit *uint64 `query:"limit"`
+		Page  *uint64 `query:"page"`
+	}
+
 	UserJwt struct {
 		ID uint64 `json:"id"`
 		jwt.StandardClaims

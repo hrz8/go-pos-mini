@@ -38,4 +38,8 @@ var (
 		Status: 400,
 		Err:    errors.New("failed to get user by id"),
 	}
+	GetAll = errorMap{
+		Status: 400,
+		Err:    errors.New("failed to get all user"),
+	}
 )

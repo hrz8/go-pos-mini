@@ -19,3 +19,12 @@ func Ternary(d interface{}, s interface{}) interface{} {
 	}
 	return data
 }
+
+// GetOffset is a helper function to get sql offset value from page and limit args
+func GetOffset(page int, limit int) int {
+	offset := (page - 1) * limit
+	if offset < 0 {
+		return 0
+	}
+	return offset
+}

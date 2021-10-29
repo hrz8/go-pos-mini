@@ -1,7 +1,6 @@
 package repository
 
 import (
-	Config "github.com/hrz8/go-pos-mini/config"
 	"github.com/hrz8/go-pos-mini/helpers"
 	"github.com/hrz8/go-pos-mini/models"
 	"gorm.io/gorm"
@@ -86,13 +85,8 @@ func (i *impl) GetAll(trx *gorm.DB, payload *models.MerchantPayloadGetAll) (*[]m
 	return &result, nil
 }
 
-func NewRepository(db *gorm.DB, appConfig *Config.AppConfig) RepositoryInterface {
+func NewRepository(db *gorm.DB) RepositoryInterface {
 	db.AutoMigrate(&models.Merchant{})
-	db.Debug().Create(&models.Merchant{
-		ID:          8912,
-		Name:        "Merchant Pamungkas",
-		Description: "Merchant di jalan pamungkas",
-	})
 	return &impl{
 		db: db,
 	}

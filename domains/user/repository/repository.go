@@ -1,10 +1,8 @@
 package repository
 
 import (
-	Config "github.com/hrz8/go-pos-mini/config"
 	"github.com/hrz8/go-pos-mini/helpers"
 	"github.com/hrz8/go-pos-mini/models"
-	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
@@ -123,16 +121,8 @@ func (i *impl) GetAll(trx *gorm.DB, payload *models.UserPayloadGetAll) (*[]model
 	return &result, nil
 }
 
-func NewRepository(db *gorm.DB, appConfig *Config.AppConfig) RepositoryInterface {
+func NewRepository(db *gorm.DB) RepositoryInterface {
 	db.AutoMigrate(&models.User{})
-	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(appConfig.SERVICE.ADMINPASSWORD), bcrypt.DefaultCost)
-	hashedPasswordStr := string(hashedPassword)
-	db.Debug().Create(&models.User{
-		ID:        999,
-		Email:     "admin@posmini.com",
-		Password:  &hashedPasswordStr,
-		FirstName: "Admin",
-	})
 	return &impl{
 		db: db,
 	}

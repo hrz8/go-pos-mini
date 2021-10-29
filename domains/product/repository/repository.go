@@ -1,7 +1,6 @@
 package repository
 
 import (
-	Config "github.com/hrz8/go-pos-mini/config"
 	"github.com/hrz8/go-pos-mini/helpers"
 	"github.com/hrz8/go-pos-mini/models"
 	"gorm.io/gorm"
@@ -112,14 +111,14 @@ func (i *impl) GetAll(trx *gorm.DB, payload *models.ProductPayloadGetAll) (*[]mo
 		executor = executor.Offset(helpers.GetOffset(int(*payload.Page), int(*payload.Limit)))
 	}
 
-	if err := executor.Omit("password").Find(&result).Error; err != nil {
+	if err := executor.Find(&result).Error; err != nil {
 		return nil, err
 	}
 
 	return &result, nil
 }
 
-func NewRepository(db *gorm.DB, appConfig *Config.AppConfig) RepositoryInterface {
+func NewRepository(db *gorm.DB) RepositoryInterface {
 	db.AutoMigrate(&models.Product{})
 	return &impl{
 		db: db,

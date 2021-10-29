@@ -14,9 +14,9 @@ type (
 
 	// UserPayloadCreate represents json payload schema to create user
 	UserPayloadCreate struct {
-		Email     string `json:"email" validate:"required"`
-		Password  string `json:"password" validate:"required"`
-		FirstName string `json:"firstName" validate:"required"`
+		Email     string `json:"email" validate:"required,email"`
+		Password  string `json:"password" validate:"required,min=8"`
+		FirstName string `json:"firstName" validate:"required,min=3"`
 		LastName  string `json:"lastName"`
 	}
 
@@ -24,6 +24,14 @@ type (
 	UserPayloadLogin struct {
 		Email    string `json:"email" validate:"required"`
 		Password string `json:"password" validate:"required"`
+	}
+
+	// UserPayloadUpdate represents json payload schema to update user
+	UserPayloadUpdate struct {
+		ID        uint64  `json:"-" param:"id" validate:"required"`
+		Password  *string `json:"password" validate:"omitempty,min=8"`
+		FirstName string  `json:"firstName" validate:"min=3"`
+		LastName  *string `json:"lastName"`
 	}
 
 	UserJwt struct {

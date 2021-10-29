@@ -15,6 +15,7 @@ type (
 	RESTInterface interface {
 		Create(c echo.Context) error
 		Login(c echo.Context) error
+		UpdateById(c echo.Context) error
 	}
 
 	impl struct {
@@ -59,12 +60,26 @@ func (i *impl) Login(c echo.Context) error {
 	})
 	token, err := tokenTemp.SignedString([]byte(ctx.AppConfig.SERVICE.JWTSECRET))
 	if err != nil {
-		return err
+		return i.restError.Throw(ctx, DomainUserError.Login.Err, err)
 	}
 
 	return ctx.SuccessResponse(
 		map[string]interface{}{"token": token},
 		"success login",
+		nil,
+	)
+}
+
+func (i *impl) UpdateById(c echo.Context) error {
+	ctx := c.(*utils.CustomContext)
+	payload := ctx.Payload.(*models.UserPayloadUpdate)
+	result, err := i.usecase.UpdateById(ctx, payload.ID, payload)
+	if err != nil {
+		return i.restError.Throw(ctx, DomainUserError.UpdateById.Err, err)
+	}
+	return ctx.SuccessResponse(
+		result,
+		"success update user",
 		nil,
 	)
 }

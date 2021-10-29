@@ -26,4 +26,8 @@ var (
 		Status: 404,
 		Err:    errors.New("user is not found"),
 	}
+	UpdateById = errorMap{
+		Status: 404,
+		Err:    errors.New("failed to update user"),
+	}
 )

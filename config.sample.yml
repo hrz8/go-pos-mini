@@ -1,0 +1,9 @@
+SERVICE:
+  RESTPORT: 3000
+  JWTSECRET: yoursecret
+DATABASE: 
+  HOST: localhost
+  PORT: 3306
+  USER: root
+  PASSWORD: toor
+  NAME: pos_mini

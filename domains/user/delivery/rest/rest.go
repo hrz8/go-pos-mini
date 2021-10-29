@@ -17,6 +17,7 @@ type (
 		Login(c echo.Context) error
 		UpdateById(c echo.Context) error
 		DeleteById(c echo.Context) error
+		GetById(c echo.Context) error
 	}
 
 	impl struct {
@@ -95,7 +96,22 @@ func (i *impl) DeleteById(c echo.Context) error {
 	result.Password = nil
 	return ctx.SuccessResponse(
 		result,
-		"success delete color",
+		"success delete user",
+		nil,
+	)
+}
+
+func (i *impl) GetById(c echo.Context) error {
+	ctx := c.(*utils.CustomContext)
+	payload := ctx.Payload.(*models.UserPayloadGetById)
+	result, err := i.usecase.GetById(ctx, payload.ID)
+	if err != nil {
+		return i.restError.Throw(ctx, DomainUserError.GetById.Err, err)
+	}
+	result.Password = nil
+	return ctx.SuccessResponse(
+		result,
+		"success get user by id",
 		nil,
 	)
 }

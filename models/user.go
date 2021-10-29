@@ -39,6 +39,11 @@ type (
 		ID uint64 `param:"id" validate:"required"`
 	}
 
+	// UserPayloadGetById represents payload to get user by identifier
+	UserPayloadGetById struct {
+		ID uint64 `param:"id" validate:"required"`
+	}
+
 	UserJwt struct {
 		ID uint64 `json:"id"`
 		jwt.StandardClaims

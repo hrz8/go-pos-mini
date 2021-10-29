@@ -10,4 +10,5 @@ import (
 
 func AddUserEndpoints(e *echo.Echo, rest RESTInterface) {
 	e.POST("/api/v1/user", rest.Create, Utils.ValidatorMiddleware(reflect.TypeOf(models.UserPayloadCreate{})))
+	e.POST("/api/v1/user/login", rest.Login, Utils.ValidatorMiddleware(reflect.TypeOf(models.UserPayloadLogin{})))
 }

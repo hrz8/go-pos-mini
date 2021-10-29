@@ -1,6 +1,8 @@
 package usecase
 
 import (
+	DomainUserError "github.com/hrz8/go-pos-mini/domains/user/error"
+
 	"github.com/hrz8/go-pos-mini/domains/user/repository"
 	"github.com/hrz8/go-pos-mini/models"
 	"github.com/hrz8/go-pos-mini/utils"
@@ -10,6 +12,7 @@ import (
 type (
 	UsecaseInterface interface {
 		Create(ctx *utils.CustomContext, user *models.UserPayloadCreate) (*models.User, error)
+		Login(_ *utils.CustomContext, payload *models.UserPayloadLogin) (*models.User, error)
 	}
 
 	impl struct {
@@ -40,6 +43,22 @@ func (i *impl) Create(ctx *utils.CustomContext, payload *models.UserPayloadCreat
 
 	trx.Commit()
 	return userCreated, err
+}
+
+func (i *impl) Login(_ *utils.CustomContext, payload *models.UserPayloadLogin) (*models.User, error) {
+	result, err := i.repository.GetBy(nil, &models.User{Email: payload.Email})
+	if result == nil {
+		return nil, DomainUserError.GetBy.Err
+	}
+
+	wrongPassword := bcrypt.CompareHashAndPassword([]byte(*result.Password), []byte(payload.Password))
+
+	if wrongPassword != nil {
+		// login failed
+		return nil, DomainUserError.WrongPassword.Err
+	}
+
+	return result, err
 }
 
 func NewUsecase(repo repository.RepositoryInterface) UsecaseInterface {

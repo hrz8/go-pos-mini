@@ -5,6 +5,8 @@ import (
 	"fmt"
 
 	"github.com/golang-jwt/jwt"
+	MerchantRepository "github.com/hrz8/go-pos-mini/domains/merchant/repository"
+	OutletRepository "github.com/hrz8/go-pos-mini/domains/outlet/repository"
 	UserREST "github.com/hrz8/go-pos-mini/domains/user/delivery/rest"
 	DomainUserError "github.com/hrz8/go-pos-mini/domains/user/error"
 	UserRepository "github.com/hrz8/go-pos-mini/domains/user/repository"
@@ -27,6 +29,8 @@ func main() {
 	userRepository := UserRepository.NewRepository(mysqlSess, appConfig)
 	userUsecase := UserUsecase.NewUsecase(userRepository)
 	userREST := UserREST.NewRest(userUsecase)
+	MerchantRepository.NewRepository(mysqlSess, appConfig)
+	OutletRepository.NewRepository(mysqlSess, appConfig)
 
 	RESTServer := echo.New()
 	RESTServer.Validator = utils.NewValidator()

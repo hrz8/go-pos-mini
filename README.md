@@ -38,8 +38,9 @@ DATABASE:
 ```
 
 Details:
-| SERVICE.RESTPORT      | This will be a rest server port                                                           |
+| Config                | Details                                                                                   |
 |-----------------------|-------------------------------------------------------------------------------------------|
+| SERVICE.RESTPORT      | This will be a rest server port                                                           |
 | SERVICE.JWTSECRET     | A secret for JWT token that apps will generate from                                       |
 | SERVICE.ADMINPASSWORD | This will be default password for dummy user (will be use to do a login to request token) |
 | DATABASE.HOST         | The used database host/address                                                            |

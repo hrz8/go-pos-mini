@@ -6,7 +6,7 @@ Postman: https://documenter.getpostman.com/view/6786432/UV5f9EWr
 ## stacks 🥞
 - MySQL
 - Golang
-- Echo Frameword
+- Echo Framework
 - GORM
 
 ## setup up ☕️

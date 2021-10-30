@@ -10,9 +10,9 @@ import (
 )
 
 func AddProductEndpoints(e *echo.Echo, rest RESTInterface, jwtMiddleware *middleware.JWTConfig) {
-	e.POST("/api/v1/user", rest.Create, middleware.JWTWithConfig(*jwtMiddleware), Utils.ValidatorMiddleware(reflect.TypeOf(models.ProductPayloadCreate{})))
-	e.PUT("/api/v1/user/:id", rest.UpdateById, middleware.JWTWithConfig(*jwtMiddleware), Utils.ValidatorMiddleware(reflect.TypeOf(models.ProductPayloadUpdate{})))
-	e.DELETE("/api/v1/user/:id", rest.DeleteById, middleware.JWTWithConfig(*jwtMiddleware), Utils.ValidatorMiddleware(reflect.TypeOf(models.ProductPayloadDeleteById{})))
-	e.GET("/api/v1/user/:id", rest.GetById, middleware.JWTWithConfig(*jwtMiddleware), Utils.ValidatorMiddleware(reflect.TypeOf(models.ProductPayloadGetById{})))
-	e.GET("/api/v1/user", rest.GetAll, middleware.JWTWithConfig(*jwtMiddleware), Utils.ValidatorMiddleware(reflect.TypeOf(models.ProductPayloadGetAll{})))
+	e.POST("/api/v1/product", rest.Create, middleware.JWTWithConfig(*jwtMiddleware), Utils.ValidatorMiddleware(reflect.TypeOf(models.ProductPayloadCreate{})))
+	e.PUT("/api/v1/product/:id", rest.UpdateById, middleware.JWTWithConfig(*jwtMiddleware), Utils.ValidatorMiddleware(reflect.TypeOf(models.ProductPayloadUpdate{})))
+	e.DELETE("/api/v1/product/:id", rest.DeleteById, middleware.JWTWithConfig(*jwtMiddleware), Utils.ValidatorMiddleware(reflect.TypeOf(models.ProductPayloadDeleteById{})))
+	e.GET("/api/v1/product/:id", rest.GetById, middleware.JWTWithConfig(*jwtMiddleware), Utils.ValidatorMiddleware(reflect.TypeOf(models.ProductPayloadGetById{})))
+	e.GET("/api/v1/product", rest.GetAll, middleware.JWTWithConfig(*jwtMiddleware), Utils.ValidatorMiddleware(reflect.TypeOf(models.ProductPayloadGetAll{})))
 }

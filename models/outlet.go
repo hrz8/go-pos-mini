@@ -9,13 +9,14 @@ type (
 		MerchantID  uint64     `gorm:"not null" json:"-"`
 		Merchant    *Merchant  `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"merchant,omitempty"`
 		Products    []*Product `gorm:"many2many:outlets_products" json:"products,omitempty"`
+		OutletsProducts
 	}
 
 	// PartnersPartnerTypes represents join table schema for partner -> partner_type
 	OutletsProducts struct {
-		OutletID  uint64
-		ProductID uint64
-		Price     uint64
+		OutletID  uint64 `json:"-"`
+		ProductID uint64 `json:"-"`
+		Price     uint64 `gorm:"column:price;not null" json:"price"`
 	}
 
 	// OutletPayloadGetAll represents payload to get all user

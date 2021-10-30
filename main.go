@@ -7,6 +7,7 @@ import (
 	"github.com/golang-jwt/jwt"
 	MerchantRepository "github.com/hrz8/go-pos-mini/domains/merchant/repository"
 	OutletRepository "github.com/hrz8/go-pos-mini/domains/outlet/repository"
+	OutletsProductsRepository "github.com/hrz8/go-pos-mini/domains/outlets_products/repository"
 	ProductREST "github.com/hrz8/go-pos-mini/domains/product/delivery/rest"
 	ProductRepository "github.com/hrz8/go-pos-mini/domains/product/repository"
 	ProductUsecase "github.com/hrz8/go-pos-mini/domains/product/usecase"
@@ -33,8 +34,9 @@ func main() {
 	userUsecase := UserUsecase.NewUsecase(userRepository)
 	userREST := UserREST.NewRest(userUsecase)
 
+	outletsProductsRepository := OutletsProductsRepository.NewRepository(mysqlSess)
 	productRepository := ProductRepository.NewRepository(mysqlSess)
-	productUsecase := ProductUsecase.NewUsecase(productRepository)
+	productUsecase := ProductUsecase.NewUsecase(productRepository, outletsProductsRepository)
 	productREST := ProductREST.NewRest(productUsecase)
 
 	MerchantRepository.NewRepository(mysqlSess)

@@ -32,7 +32,7 @@ func (i *impl) Create(c echo.Context) error {
 	}
 	return ctx.SuccessResponse(
 		result,
-		"success create user",
+		"success create product",
 		nil,
 	)
 }
@@ -46,7 +46,7 @@ func (i *impl) UpdateById(c echo.Context) error {
 	}
 	return ctx.SuccessResponse(
 		result,
-		"success update user",
+		"success update product",
 		nil,
 	)
 }
@@ -60,7 +60,7 @@ func (i *impl) DeleteById(c echo.Context) error {
 	}
 	return ctx.SuccessResponse(
 		result,
-		"success delete user",
+		"success delete product",
 		nil,
 	)
 }
@@ -74,7 +74,7 @@ func (i *impl) GetById(c echo.Context) error {
 	}
 	return ctx.SuccessResponse(
 		result,
-		"success get user by id",
+		"success get product by id",
 		nil,
 	)
 }
@@ -88,7 +88,7 @@ func (i *impl) GetAll(c echo.Context) error {
 	}
 	return ctx.SuccessResponse(
 		result,
-		"success fetch all user",
+		"success fetch all product",
 		utils.ListMetaResponse{
 			Count: len(*result),
 			Total: int(*total),

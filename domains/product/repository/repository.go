@@ -57,7 +57,11 @@ func (i *impl) GetBy(trx *gorm.DB, payload *models.Product) (*models.Product, er
 
 	// execution
 	result := models.Product{}
-	if err := trx.Debug().Where(payload).First(&result).Error; err != nil {
+	if err := trx.Debug().
+		Where(payload).
+		Preload("Outlets.Merchant").
+		First(&result).
+		Error; err != nil {
 		return nil, err
 	}
 	return &result, nil
@@ -111,7 +115,10 @@ func (i *impl) GetAll(trx *gorm.DB, payload *models.ProductPayloadGetAll) (*[]mo
 		executor = executor.Offset(helpers.GetOffset(int(*payload.Page), int(*payload.Limit)))
 	}
 
-	if err := executor.Find(&result).Error; err != nil {
+	if err := executor.
+		Preload("Outlets.Merchant").
+		Find(&result).
+		Error; err != nil {
 		return nil, err
 	}
 

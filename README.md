@@ -63,6 +63,18 @@ CRUD:
 
 ![crud activity diagram](activity_diagram0.png "Activity Diagram For CRUD")
 
+### usecase diagram 🔶
+
+![usecase diagram](usecase_diagram.png "Usecse Diagram")
+
+### data manipulation language used 🧮
+
+| Command | Details                                                                   |
+|---------|---------------------------------------------------------------------------|
+| UPDATE  | To update the record based on user or product id                          |
+| INSERT  | To add new record                                                         |
+| WHERE   | Especially in UPDATE, it used to determine which record need to be update |
+
 ## run 🏃‍♂️
 
 ### cli 💻

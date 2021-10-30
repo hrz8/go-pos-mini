@@ -7,6 +7,10 @@ import (
 	"github.com/golang-jwt/jwt"
 	MerchantRepository "github.com/hrz8/go-pos-mini/domains/merchant/repository"
 	OutletRepository "github.com/hrz8/go-pos-mini/domains/outlet/repository"
+	OutletsProductsRepository "github.com/hrz8/go-pos-mini/domains/outlets_products/repository"
+	ProductREST "github.com/hrz8/go-pos-mini/domains/product/delivery/rest"
+	ProductRepository "github.com/hrz8/go-pos-mini/domains/product/repository"
+	ProductUsecase "github.com/hrz8/go-pos-mini/domains/product/usecase"
 	UserREST "github.com/hrz8/go-pos-mini/domains/user/delivery/rest"
 	DomainUserError "github.com/hrz8/go-pos-mini/domains/user/error"
 	UserRepository "github.com/hrz8/go-pos-mini/domains/user/repository"
@@ -26,11 +30,23 @@ func main() {
 	mysqlSess := mysql.Connect()
 
 	// domains functions
-	userRepository := UserRepository.NewRepository(mysqlSess, appConfig)
+	userRepository := UserRepository.NewRepository(mysqlSess)
 	userUsecase := UserUsecase.NewUsecase(userRepository)
 	userREST := UserREST.NewRest(userUsecase)
-	MerchantRepository.NewRepository(mysqlSess, appConfig)
-	OutletRepository.NewRepository(mysqlSess, appConfig)
+
+	outletsProductsRepository := OutletsProductsRepository.NewRepository(mysqlSess)
+	productRepository := ProductRepository.NewRepository(mysqlSess)
+	productUsecase := ProductUsecase.NewUsecase(productRepository, outletsProductsRepository)
+	productREST := ProductREST.NewRest(productUsecase)
+
+	MerchantRepository.NewRepository(mysqlSess)
+	OutletRepository.NewRepository(mysqlSess)
+
+	// seeding
+	UserRepository.RunSeed(mysqlSess, appConfig)
+	ProductRepository.RunSeed(mysqlSess, appConfig)
+	MerchantRepository.RunSeed(mysqlSess, appConfig)
+	OutletRepository.RunSeed(mysqlSess, appConfig)
 
 	RESTServer := echo.New()
 	RESTServer.Validator = utils.NewValidator()
@@ -78,6 +94,7 @@ func main() {
 
 	// register REST endpoints
 	UserREST.AddUserEndpoints(RESTServer, userREST, &JWTConfig)
+	ProductREST.AddProductEndpoints(RESTServer, productREST, &JWTConfig)
 
 	// serve REST
 	RESTServer.Logger.Fatal(RESTServer.Start(fmt.Sprintf(":%d", appConfig.SERVICE.RESTPORT)))

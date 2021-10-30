@@ -1,7 +1,6 @@
 package repository
 
 import (
-	Config "github.com/hrz8/go-pos-mini/config"
 	"github.com/hrz8/go-pos-mini/helpers"
 	"github.com/hrz8/go-pos-mini/models"
 	"gorm.io/gorm"
@@ -10,7 +9,7 @@ import (
 type (
 	RepositoryInterface interface {
 		CountAll(trx *gorm.DB) (*int64, error)
-		Create(trx *gorm.DB, Outlet *models.Outlet) (*models.Outlet, error)
+		Create(trx *gorm.DB, outlet *models.Outlet) (*models.Outlet, error)
 		GetBy(trx *gorm.DB, payload *models.Outlet) (*models.Outlet, error)
 		GetAll(trx *gorm.DB, payload *models.OutletPayloadGetAll) (*[]models.Outlet, error)
 	}
@@ -86,48 +85,8 @@ func (i *impl) GetAll(trx *gorm.DB, payload *models.OutletPayloadGetAll) (*[]mod
 	return &result, nil
 }
 
-func NewRepository(db *gorm.DB, appConfig *Config.AppConfig) RepositoryInterface {
+func NewRepository(db *gorm.DB) RepositoryInterface {
 	db.AutoMigrate(&models.Outlet{})
-	db.Debug().Create(&models.Outlet{
-		ID:          3892,
-		Name:        "Outlet Pamungkas A",
-		Description: "Outlet di jalan pamungkas 1",
-		Merchant: &models.Merchant{
-			ID:          8912,
-			Name:        "Merchant Pamungkas",
-			Description: "Merchant di jalan pamungkas",
-		},
-	})
-	db.Debug().Create(&models.Outlet{
-		ID:          3892,
-		Name:        "Outlet Pamungkas B",
-		Description: "Outlet di jalan pamungkas 2",
-		Merchant: &models.Merchant{
-			ID:          8912,
-			Name:        "Merchant Pamungkas",
-			Description: "Merchant di jalan pamungkas",
-		},
-	})
-	db.Debug().Create(&models.Outlet{
-		ID:          3892,
-		Name:        "Outlet Pamungkas C",
-		Description: "Outlet di jalan pamungkas 3",
-		Merchant: &models.Merchant{
-			ID:          8912,
-			Name:        "Merchant Pamungkas",
-			Description: "Merchant di jalan pamungkas",
-		},
-	})
-	db.Debug().Create(&models.Outlet{
-		ID:          3892,
-		Name:        "Outlet Pamungkas D",
-		Description: "Outlet di jalan pamungkas 4",
-		Merchant: &models.Merchant{
-			ID:          8912,
-			Name:        "Merchant Pamungkas",
-			Description: "Merchant di jalan pamungkas",
-		},
-	})
 	return &impl{
 		db: db,
 	}

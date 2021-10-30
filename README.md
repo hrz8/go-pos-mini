@@ -51,7 +51,13 @@ Details:
 
 ### database schema (erd) 📊
 
-![recipe db diagram](db_diagram.png "DB Diagram")
+![db diagram](db_diagram.png "DB Diagram")
+
+### activity diagram ⛳️
+Login:
+![login activity diagram](activity_diagram1.png "Activity Diagram For Login")
+CRUD:
+![crud activity diagram](activity_diagram0.png "Activity Diagram For CRUD")
 
 ## run 🏃‍♂️
 

@@ -30,7 +30,6 @@ func (i *impl) GetPricesProductId(trx *gorm.DB, payload *[]uint64) (*[]models.Ou
 }
 
 func NewRepository(db *gorm.DB) RepositoryInterface {
-	db.AutoMigrate(&models.OutletsProducts{})
 	return &impl{
 		db: db,
 	}

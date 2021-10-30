@@ -58,6 +58,7 @@ Details:
 Login:
 
 ![login activity diagram](activity_diagram1.png "Activity Diagram For Login")
+
 CRUD:
 
 ![crud activity diagram](activity_diagram0.png "Activity Diagram For CRUD")

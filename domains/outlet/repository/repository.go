@@ -87,6 +87,7 @@ func (i *impl) GetAll(trx *gorm.DB, payload *models.OutletPayloadGetAll) (*[]mod
 
 func NewRepository(db *gorm.DB) RepositoryInterface {
 	db.AutoMigrate(&models.Outlet{})
+	db.AutoMigrate(&models.OutletsProducts{})
 	return &impl{
 		db: db,
 	}
